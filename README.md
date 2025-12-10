@@ -1,5 +1,64 @@
 # Fiindo Recruitment Challenge
 
+## Fiindo ETL Pipeline
+
+A data processing application that extracts financial data from the Fiindo API calculates key metrics (PE Ratio, Revenue Growth, etc.), and stores the results in an SQLite database.
+
+### Features
+- **ETL Pipeline**: Extracts financial data, transforms it (calculating PE Ratio, Revenue Growth, Net Income TTM, Debt Ratio), and loads it into SQLite.
+- **Robustness**: Includes health checks and smart filtering for mixed fiscal periods (Quarters vs. Fiscal Years).
+- **Dockerized**: Easy to run with Docker Compose.
+- **Testing**: Comprehensive unit tests covering logic and edge cases.
+
+### Prerequisites
+- Docker & Docker Compose
+- *Or* Python 3.10+ (for local manual runs)
+
+### Quick Start (Docker)
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/NikolasRupp/fiindo-recruitment-challange
+   cd fiindo-recruitment-challange
+   ```
+
+2. Run the application: This builds the image and starts the container.
+   ```bash
+   # Default run (uses default names)
+   docker-compose up --build
+
+   # Custom run (override names and industries)
+   # Windows PowerShell:
+   $env:FIRST_NAME="Jane"; $env:LAST_NAME="Doe"; docker-compose up --build
+
+   # Linux/Mac:
+   FIRST_NAME="Jane" LAST_NAME="Doe" docker-compose up --build
+   ```
+
+3. Check the Output
+
+   The application will log its progress. Once finished, you will see "Pipeline Done." and the container will exit. The database fiindo_challenge.db will be updated in your local folder.
+
+### Running Tests
+To run the unit tests (which do not require API access), execute:
+
+```bash
+# Using Python directly
+python -m unittest discover tests
+
+# Or inside Docker (if container is running)
+docker exec -it fiindo_etl_container python -m unittest discover tests
+```
+
+### Configuration
+| Variable          | Description                                   | Default                                                           |
+|-------------------|-----------------------------------------------|-------------------------------------------------------------------|
+| FIRST_NAME        | Your first name for API Auth                  | None (Required)                                                   |
+| LAST_NAME         | Your last name for API Auth                   | None (Required)                                                   |
+| TARGET_INDUSTRIES | Comma-separated list of industries to process | Banks - Diversified, Software - Application, Consumer Electronics |
+
+---
+
 This repository contains a coding challenge for fiindo candidates. Candidates should fork this repository and implement their solution based on the requirements below.
 
 ## Challenge Overview
@@ -7,7 +66,7 @@ This repository contains a coding challenge for fiindo candidates. Candidates sh
 Create a data processing application that:
 - Fetches financial data from an API
 - Performs calculations on stock ticker data
-- Saves results to a SQLite database
+- Saves results to an SQLite database
 
 ## Technical Requirements
 
@@ -36,7 +95,7 @@ Calculate data for symbols only from those 3 industries:
 
 #### Per Ticker Statistics
 - **PE Ratio**: Price-to-Earnings ratio calculation from last quarter
-- **Revenue Growth**: Quarter-over-quarter revenue growth (Q-1 vs Q-2)
+- **Revenue Growth**: Quarter-over-quarter revenue growth (Q-1 vs. Q-2)
 - **NetIncomeTTM**: Trailing twelve months net income
 - **DebtRatio**: Debt-to-equity ratio from last year
 
@@ -60,7 +119,7 @@ Calculate data for symbols only from those 3 industries:
 ## Getting Started
 
 1. **Fork this repository** to your GitHub account
-3. **Implement the solution** following the process steps outlined above 
+2. **Implement the solution** following the process steps outlined above 
 
 ## Deliverables
 
@@ -77,7 +136,7 @@ Your completed solution should include:
 - Create a `Dockerfile` and `docker-compose.yml`
 
 ### Unit Testing
-- Write comprehensive unit tests for ETL part your solution
+- Write comprehensive unit tests for ETL part of your solution
 
 
 Good luck with your implementation!

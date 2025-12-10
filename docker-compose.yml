@@ -1,0 +1,12 @@
+services:
+  fiindo-etl:
+    build: .
+    container_name: fiindo_etl_container
+    # Variables
+    environment:
+      - FIRST_NAME=Firstname
+      - LAST_NAME=Lastname
+      - TARGET_INDUSTRIES=Banks - Diversified,Software - Application,Consumer Electronics
+    # Mapping DB
+    volumes:
+      - ./fiindo_challenge.db:/app/fiindo_challenge.db
